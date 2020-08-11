@@ -6,15 +6,23 @@ import morgan from "morgan";
 // Cors permite realizar peticiones http desde otros dominios
 import cors from "cors";
 import path from "path";
+import mongoose from "mongoose";
+import routes from "./routes/nota";
+
+const URI =
+  "mongodb+srv://intro-master:JRDG05180913@intronode-7sskn.mongodb.net/mevnbasic?retryWrites=true&w=majority";
+// Conexion a db
+mongoose.connect(URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(morgan("tiny"));
-app.get("/", (req, res) => {
-  res.send("Hola Mundo desde Express framework");
-});
+app.use("/api", routes);
 
 app.listen(PORT, () => {
   console.log(`Escuchando en el puerto ${PORT}`);
