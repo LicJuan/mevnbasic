@@ -6,12 +6,9 @@ router.post("/nota", async (req, res) => {
   const body = req.body;
   try {
     const notaDB = await Nota.create(body);
-    return res.status(201).json({
-      message: "La nota ha sido creada",
-      notaDB,
-    });
+    return res.status(201).json(notaDB);
   } catch (err) {
-    return res.status(500).json({
+    return res.status(404).json({
       message: "Error del servidor",
       err,
     });
@@ -20,10 +17,7 @@ router.post("/nota", async (req, res) => {
 router.get("/nota", async (req, res) => {
   try {
     const notaDB = await Nota.find();
-    res.status(200).json({
-      message: "Todas las notas",
-      notaDB,
-    });
+    res.status(200).json(notaDB);
   } catch (err) {
     res.status(500).json({
       message: "No se encontraron los datos",
@@ -35,10 +29,7 @@ router.get("/nota/:id", async (req, res) => {
   const _id = req.params.id;
   try {
     const notaDB = await Nota.findOne({ _id });
-    res.status(200).json({
-      message: "Se encontro el registro",
-      notaDB,
-    });
+    res.status(200).json(notaDB);
   } catch (err) {
     return res.status(400).json({
       message: "Error en la peticion",
@@ -51,10 +42,7 @@ router.delete("/nota/:id", async (req, res) => {
   const _id = req.params.id;
   try {
     const notaDB = await Nota.findByIdAndDelete({ _id });
-    res.status(200).json({
-      message: "La Nota se elimino",
-      notaDB,
-    });
+    res.status(200).json(notaDB);
   } catch (err) {
     res.status(400).json({
       message: "Ocurrio el error al eliminar",
@@ -68,10 +56,7 @@ router.put("/nota/:id", async (req, res) => {
   const body = req.body;
   try {
     const notaDB = await Nota.findByIdAndUpdate(_id, body, { new: true });
-    res.status(202).json({
-      message: "Nota Actualizada",
-      notaDB,
-    });
+    res.status(202).json(notaDB);
   } catch (err) {
     res.status(500).json({
       message: "Ocurrio un error al actualizar",
