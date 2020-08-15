@@ -8,6 +8,7 @@ import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
 import routes from "./routes/nota";
+import history from "connect-history-api-fallback";
 
 const URI =
   "mongodb+srv://intro-master:JRDG05180913@intronode-7sskn.mongodb.net/mevnbasic?retryWrites=true&w=majority";
@@ -17,6 +18,7 @@ mongoose.connect(URI, {
   useUnifiedTopology: true,
 });
 
+app.use(history());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
