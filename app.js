@@ -7,7 +7,9 @@ import morgan from "morgan";
 import cors from "cors";
 import path from "path";
 import mongoose from "mongoose";
-import routes from "./routes/nota";
+import notaRouter from "./routes/nota";
+import userRouter from "./routes/user";
+import loginRouter from "./routes/login";
 import history from "connect-history-api-fallback";
 
 const URI =
@@ -24,7 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(morgan("tiny"));
-app.use("/api", routes);
+app.use("/api", notaRouter);
+app.use("/api", userRouter);
+app.use("/api/login", loginRouter);
 
 app.listen(PORT, () => {
   console.log(`Escuchando en el puerto ${PORT}`);

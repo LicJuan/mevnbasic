@@ -1,9 +1,11 @@
 import express from "express";
 const router = express.Router();
 import Nota from "../models/Nota";
+import { authentication } from "../middlewares/auth";
 
-router.post("/nota", async (req, res) => {
+router.post("/nota", authentication, async (req, res) => {
   const body = req.body;
+  body.userId = req.user._id;
   try {
     const notaDB = await Nota.create(body);
     return res.status(201).json(notaDB);
@@ -14,9 +16,10 @@ router.post("/nota", async (req, res) => {
     });
   }
 });
-router.get("/nota", async (req, res) => {
+router.get("/nota", authentication, async (req, res) => {
+  const userId = req.user._id;
   try {
-    const notaDB = await Nota.find();
+    const notaDB = await Nota.find({ userId });
     res.status(200).json(notaDB);
   } catch (err) {
     res.status(500).json({
